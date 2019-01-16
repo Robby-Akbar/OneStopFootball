@@ -3,7 +3,6 @@
   "short_name": "Football",
   "description": "Application for football lovers",
   "start_url": "/index.html",
-  "Scope": "/football/",
   "display": "standalone",
   "background_color": "#00c853",
   "theme_color": "#00c853",
