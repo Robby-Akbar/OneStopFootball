@@ -186,10 +186,13 @@ function getMatches() {
             if (response) {
                 response.json().then(function (data) {
                     let matchesHTML = "";
-                    data.matches.forEach(function (match) {
-                        let date = match.utcDate.split("T");
-                        let time = date[1].split("Z");
-                        matchesHTML += `
+                    if (data.count===0){
+                        document.getElementById("matches").innerHTML = `<p>Tidak ada jadwal pertandingan</p>`;
+                    } else{
+                        data.matches.forEach(function (match) {
+                            let date = match.utcDate.split("T");
+                            let time = date[1].split("Z");
+                            matchesHTML += `
         <div class="card">
             <div class="card-content">
                 <span class="card-title truncate">${match.competition.name}</span><br>
@@ -210,8 +213,9 @@ function getMatches() {
             </div>
         </div>
                 `;
-                    });
-                    document.getElementById("matches").innerHTML = matchesHTML;
+                        });
+                        document.getElementById("matches").innerHTML = matchesHTML;
+                    }
                 })
             }
         })
@@ -226,10 +230,13 @@ function getMatches() {
         .then(json)
         .then(function (data) {
             let matchesHTML = "";
-            data.matches.forEach(function (match) {
-                let date = match.utcDate.split("T");
-                let time = date[1].split("Z");
-                matchesHTML += `
+            if (data.count===0){
+                document.getElementById("matches").innerHTML = `<p>Tidak ada jadwal pertandingan</p>`;
+            } else {
+                data.matches.forEach(function (match) {
+                    let date = match.utcDate.split("T");
+                    let time = date[1].split("Z");
+                    matchesHTML += `
         <div class="card">
             <div class="card-content">
                 <span class="card-title truncate">${match.competition.name}</span><br>
@@ -250,8 +257,9 @@ function getMatches() {
             </div>
         </div>
                 `;
-            });
-            document.getElementById("matches").innerHTML = matchesHTML;
+                });
+                document.getElementById("matches").innerHTML = matchesHTML;
+            }
         })
         .catch(error);
 
