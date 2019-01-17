@@ -2,7 +2,7 @@
   "name": "One Stop Football | Apps",
   "short_name": "Football",
   "description": "Application for football lovers",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "scope": "/OneStopFootball/",
   "display": "standalone",
   "background_color": "#00c853",
