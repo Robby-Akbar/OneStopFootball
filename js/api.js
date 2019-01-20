@@ -167,7 +167,10 @@ function getTeamById() {
             </div>
           </div>
         `;
-
+            let btnAdd = document.getElementById("btnAdd");
+            btnAdd.onclick = function () {
+                createFavorite("team",data);
+            };
             let squadsHTML = "";
             data.squad.forEach(function (squad) {
                 squadsHTML += `
@@ -182,38 +185,39 @@ function getTeamById() {
 function getMatches() {
 
     if ('caches' in window) {
-        caches.match(base_url + "matches").then(function (response) {
+        caches.match(base_url + "competitions/2021/matches?status=SCHEDULED").then(function (response) {
             if (response) {
                 response.json().then(function (data) {
                     let matchesHTML = "";
                     if (data.count===0){
                         document.getElementById("matches").innerHTML = `<p>Tidak ada jadwal pertandingan</p>`;
                     } else{
-                        data.matches.forEach(function (match) {
-                            let date = match.utcDate.split("T");
+                        let match = data.matches;
+                        for (let i = 0;i<20;i++) {
+                            let date = match[i].utcDate.split("T");
                             let time = date[1].split("Z");
                             matchesHTML += `
         <div class="card">
             <div class="card-content">
-                <span class="card-title truncate">${match.competition.name}</span><br>
-                ${match.group}
+                <span class="card-title truncate">Premier League</span><br>
+                ${match[i].group}
                 <table border="0" width="100%">
                     <tr>
-                        <td width="45%" class="left-align">${match.awayTeam.name}</td>
+                        <td width="45%" class="left-align">${match[i].awayTeam.name}</td>
                         <td width="10%"><b>VS</b></td>
-                        <td width="45%" class="right-align">${match.homeTeam.name}</td>
+                        <td width="45%" class="right-align">${match[i].homeTeam.name}</td>
                     </tr>
                 </table>
                 <h6 class="left-align"><b>Date : </b>${date[0]}</h6>
                 <h6 class="left-align"><b>Time : </b>${time[0]}</h6>
-                <h6 class="left-align"><b>Status : </b>${match.status}</h6>
+                <h6 class="left-align"><b>Status : </b>${match[i].status}</h6>
             </div>
             <div class="card-action">
                 <a href="#">Add to Favorite</a>
             </div>
         </div>
                 `;
-                        });
+                        }
                         document.getElementById("matches").innerHTML = matchesHTML;
                     }
                 })
@@ -221,7 +225,7 @@ function getMatches() {
         })
     }
 
-    fetch(base_url + "matches", {
+    fetch(base_url + "competitions/2021/matches?status=SCHEDULED", {
         headers: {
             'X-Auth-Token': API_KEY
         }
@@ -233,31 +237,32 @@ function getMatches() {
             if (data.count===0){
                 document.getElementById("matches").innerHTML = `<p>Tidak ada jadwal pertandingan</p>`;
             } else {
-                data.matches.forEach(function (match) {
-                    let date = match.utcDate.split("T");
+                let match = data.matches;
+                for (let i = 0;i<20;i++){
+                    let date = match[i].utcDate.split("T");
                     let time = date[1].split("Z");
                     matchesHTML += `
         <div class="card">
             <div class="card-content">
-                <span class="card-title truncate">${match.competition.name}</span><br>
-                ${match.group}
+                <span class="card-title truncate">Premier League</span><br>
+                ${match[i].group}
                 <table border="0" width="100%">
                     <tr>
-                        <td width="45%" class="left-align">${match.awayTeam.name}</td>
+                        <td width="45%" class="left-align">${match[i].awayTeam.name}</td>
                         <td width="10%"><b>VS</b></td>
-                        <td width="45%" class="right-align">${match.homeTeam.name}</td>
+                        <td width="45%" class="right-align">${match[i].homeTeam.name}</td>
                     </tr>
                 </table>
                 <h6 class="left-align"><b>Date : </b>${date[0]}</h6>
                 <h6 class="left-align"><b>Time : </b>${time[0]}</h6>
-                <h6 class="left-align"><b>Status : </b>${match.status}</h6>
+                <h6 class="left-align"><b>Status : </b>${match[i].status}</h6>
             </div>
             <div class="card-action">
                 <a href="#">Add to Favorite</a>
             </div>
         </div>
                 `;
-                });
+                }
                 document.getElementById("matches").innerHTML = matchesHTML;
             }
         })

@@ -28,8 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
                             getTeams();
                         } else if (page === "match"){
                             getMatches();
-                        } else if (page === "favorite"){
-
                         }
                         if (page!=="favorite"){
                             loadPage(page);
