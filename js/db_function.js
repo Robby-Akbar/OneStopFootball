@@ -1,7 +1,21 @@
-import * as M from "./materialize";
-import {databasePromise} from "./db";
+function favoriteState(storeName, id) {
+    return new Promise(function (resolve, reject) {
+        databasePromise(idb)
+            .then(function (db) {
+                let tx = db.transaction(storeName, "readonly");
+                return tx.objectStore(storeName).get(id);
+            })
+            .then(function (data) {
+                if (data !== undefined) {
+                    resolve("Yes")
+                } else {
+                    reject("No")
+                }
+            });
+    });
+}
 
-export function createFavorite(type, data) {
+function createFavorite(type, data) {
     let storeName = "";
     let item = {};
     if (type === "team") {
@@ -23,28 +37,73 @@ export function createFavorite(type, data) {
     } else if (type === "match"){
         storeName = "favorite_match";
         item = {
-            matches: {
-                id: data.matches.id,
-                utcDate: data.matches.utcDate,
-                group: data.matches.group,
-                status: data.matches.status,
+            id: data.match.id,
+            head2head: {
+                numberOfMatches: data.head2head.numberOfMatches,
+                totalGoals: data.head2head.totalGoals,
                 homeTeam: {
-                    name: data.matches.homeTeam.name
+                    wins: data.head2head.homeTeam.wins,
+                    draws: data.head2head.homeTeam.draws,
+                    losses: data.head2head.homeTeam.losses
                 },
                 awayTeam: {
-                    name: data.matches.awayTeam.name
+                    wins: data.head2head.awayTeam.wins,
+                    draws: data.head2head.awayTeam.draws,
+                    losses: data.head2head.awayTeam.losses
+                }
+            },
+            match: {
+                utcDate: data.match.utcDate,
+                venue: data.match.venue,
+                matchday: data.match.matchday,
+                homeTeam: {
+                    name: data.match.homeTeam.name
+                },
+                awayTeam: {
+                    name: data.match.awayTeam.name
                 }
             }
         }
     }
-    databasePromise().then(db => {
+    databasePromise(idb).then(db => {
         const tx = db.transaction(storeName, 'readwrite');
         tx.objectStore(storeName).put(item);
         return tx.complete;
     }).then(function () {
-        document.getElementById("iconFav").innerHTML = "favorite";
+        document.getElementById("btnAdd").innerHTML = "favorite";
         M.toast({
             html: 'Added to Favorite!'
+        });
+    }).catch(function () {
+        M.toast({
+            html: 'Something went wrong'
+        });
+    });
+}
+
+function showFavorite(storeName) {
+    return new Promise(function (resolve) {
+        databasePromise(idb)
+            .then(function (db) {
+                let tx = db.transaction(storeName, "readonly");
+                return tx.objectStore(storeName).getAll();
+            })
+            .then(function (data) {
+                resolve(data);
+            });
+    });
+}
+
+
+function deleteFavorite(storeName, data) {
+    databasePromise(idb).then(function (db) {
+        let tx = db.transaction(storeName, 'readwrite');
+        tx.objectStore(storeName).delete(data);
+        return tx.complete;
+    }).then(function () {
+        document.getElementById("btnAdd").innerHTML = "favorite_border";
+        M.toast({
+            html: 'Removed from Favorite!'
         });
     }).catch(function () {
         M.toast({

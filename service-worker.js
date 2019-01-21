@@ -2,29 +2,27 @@ const CACHE_NAME = "football";
 let urlsToCache = [
     "/",
     "/images/icon.png",
+    "/images/notification.png",
     "/favorite.html",
     "/index.html",
     "/manifest.json",
+    "/match.html",
     "/nav.html",
-    "/package.json",
-    "/tab.html",
     "/team.html",
     "/pages/about.html",
     "/pages/home.html",
     "/pages/match.html",
     "/pages/team.html",
-    "/tabs/match.html",
-    "/tabs/team.html",
     "/css/icon.css",
     "/css/materialize.min.css",
     "/css/materialize.css",
     "/js/api.js",
     "/js/db.js",
     "/js/db_function.js",
+    "/js/idb.js",
     "/js/materialize.min.js",
     "/js/materialize.js",
-    "/js/nav.js",
-    "/js/tab.js"
+    "/js/nav.js"
 ];
 
 self.addEventListener("install", function(event) {

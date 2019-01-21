@@ -1,7 +1,5 @@
-import {openDb} from "idb";
-
-export function databasePromise() {
-    let dbPromise = openDb("onestopfootball", 1, function(upgradeDb) {
+function databasePromise(idb) {
+    return idb.openDb("onestopfootball", 1, function (upgradeDb) {
         if (!upgradeDb.objectStoreNames.contains("favorite_team")) {
             let indexTeam = upgradeDb.createObjectStore("favorite_team", {
                 keyPath: "id"
@@ -14,13 +12,12 @@ export function databasePromise() {
             let indexMatch = upgradeDb.createObjectStore("favorite_match", {
                 keyPath: "id"
             });
-            indexMatch.createIndex("homeTeam", "name", {
+            indexMatch.createIndex("homeTeam", "match.homeTeam.name", {
                 unique: false
             });
-            indexMatch.createIndex("awayTeam", "name", {
+            indexMatch.createIndex("awayTeam", "match.awayTeam.name", {
                 unique: false
             });
         }
-        return dbPromise;
     });
 }
