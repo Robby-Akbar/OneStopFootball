@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         // Tutup sidenav
                         let sidenav = document.querySelector(".sidenav");
                         M.Sidenav.getInstance(sidenav).close();
-
+                        $(this).parent().addClass('active').siblings().removeClass('active');
                         // Muat konten halaman yang dipanggil
                         page = event.target.getAttribute("href").substr(1);
                         if (page ==="team"){
@@ -48,6 +48,51 @@ document.addEventListener("DOMContentLoaded", function() {
     loadPage(page);
 
     function loadPage(page) {
+        document.querySelector("#body-content").innerHTML = `
+            <div class="center-align">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        `;
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4) {

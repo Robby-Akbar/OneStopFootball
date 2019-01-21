@@ -20,6 +20,7 @@ let urlsToCache = [
     "/js/db.js",
     "/js/db_function.js",
     "/js/idb.js",
+    "/js/jquery-3.3.1.js",
     "/js/materialize.min.js",
     "/js/materialize.js",
     "/js/nav.js"

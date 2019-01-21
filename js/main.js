@@ -1,9 +1,9 @@
 let webPush = require('web-push');
 let pushSubscription = {
-    "endpoint": "https://android.googleapis.com/gcm/send/e-7nm9_vs1c:APA91bFziDiGQCPNTOIqntKHLrlqs3iQnPbl0eYM1g8xy_XhWD2v-irOksECq1VluVttASu7LUvbM9E4XBaZ5yUM2y-OAkRCF0dxTWrUY8okEtcnGAV4tpfC0re-4ZTT3QjzVHiL4D4c",
+    "endpoint": "https://android.googleapis.com/gcm/send/cHPOjCSQ0Io:APA91bEPdC11hpRf6MzQGiN-tK0xSxh9jVPTMocnE0sudhzi0YMXRnvUSYKiZ34EQqOpUpq4G6swA7agRFLo7KUhBGZ93ooYcxxeFpLnx8psE_TZgcemPcSYX7GHtEwJBmmoSbmUzuyq",
     "keys": {
-        "p256dh": "BF02dRSS7udAYS/W/skvxvth3+45tZekKWFDs9Vohbt7GgbZZ8m+mBzsn70cCAgyuuYBxrdcglneAPUGlPi/Hu8=",
-        "auth": "zT7kcQ+rnm6+KrtnIhA11w=="
+        "p256dh": "BGJ547wH16Mi77gNiqYqyv9cwslH5f+QbcSXF4K8nY9jIqGFBQE8UoJqf/y1IHfYF8swBSVRtR43iAi63Fm7e48=",
+        "auth": "zoDuKGZ/sfqR1S+kNWYd3Q=="
     }
 };
 let payload = 'Here is a payload!';

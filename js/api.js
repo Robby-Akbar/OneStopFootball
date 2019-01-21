@@ -59,6 +59,35 @@ function viewTeams(data) {
     document.getElementById("teams").innerHTML = tablesHTML;
 }
 
+function viewTeamsFavorite(data) {
+    let teamsHTML = "";
+    if (data.count===0){
+        M.toast({
+            html: 'Favorite is empty!'
+        });
+    } else {
+        data.forEach(function (team) {
+            teamsHTML += `
+            <div class="center">
+                <div class="col s12 m7" id="team">
+                    <div class="card">
+                        <a href="./team.html?id=${team.id}">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img src="${team.crestUrl}" alt="Logo Team" height="200" style="object-fit: cover;"/>
+                            </div>
+                        </a>
+                        <div class="card-content">
+                            <span class="card-title truncate">${team.name}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        document.getElementById("body-content").innerHTML = teamsHTML;
+    }
+}
+
 function getTeamById() {
     let urlParams = new URLSearchParams(window.location.search);
     let idParam = urlParams.get("id");
@@ -198,6 +227,46 @@ function viewMatches(data) {
     }
 }
 
+function viewMatchesFavorite(data) {
+    let matchesHTML = "";
+    if (data.count===0){
+        M.toast({
+            html: 'Favorite is empty!'
+        });
+    } else {
+        data.forEach(function (data) {
+            let date = data.match.utcDate.split("T");
+            let time = date[1].split("Z");
+            matchesHTML += `
+            <div class="center">
+                <div class="col s12 m7" id="match">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title truncate">Premier League</span><br>
+                            ${data.match.group}
+                            <table border="0" width="100%">
+                                <tr>
+                                    <td width="45%" class="left-align">${data.match.awayTeam.name}</td>
+                                    <td width="10%"><b>VS</b></td>
+                                    <td width="45%" class="right-align">${data.match.homeTeam.name}</td>
+                                </tr>
+                            </table>
+                            <h6 class="left-align"><b>Date : </b>${date[0]}</h6>
+                            <h6 class="left-align"><b>Time : </b>${time[0]}</h6>
+                            <h6 class="left-align"><b>Status : </b>${data.match.status}</h6>
+                        </div>
+                        <div class="card-action">
+                            <a href="./match.html?id=${data.match.id}">Click to Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        document.getElementById("body-content").innerHTML = matchesHTML;
+    }
+}
+
 function getMatchById() {
     let urlParams = new URLSearchParams(window.location.search);
     let idParam = urlParams.get("id");
@@ -259,7 +328,6 @@ function viewMatch(data,id) {
                     </table>
                     <h6 class="left-align"><b>Number of Matches : </b>${h2h.numberOfMatches}</h6>
                     <h6 class="left-align"><b>Total Goals : </b>${h2h.totalGoals}</h6>
-                    <h6 class="left-align"><b>Date : </b>${date[0]}</h6>
                     <h6 class="left-align"><b>Date : </b>${date[0]}</h6>
                     <h6 class="left-align"><b>Time : </b>${time[0]}</h6>
                     <h6 class="left-align"><b>Status : </b>${match.status}</h6>

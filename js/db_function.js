@@ -53,8 +53,11 @@ function createFavorite(type, data) {
                 }
             },
             match: {
+                id: data.match.id,
                 utcDate: data.match.utcDate,
+                group: data.match.group,
                 venue: data.match.venue,
+                status: data.match.status,
                 matchday: data.match.matchday,
                 homeTeam: {
                     name: data.match.homeTeam.name
@@ -94,7 +97,6 @@ function showFavorite(storeName) {
     });
 }
 
-
 function deleteFavorite(storeName, data) {
     databasePromise(idb).then(function (db) {
         let tx = db.transaction(storeName, 'readwrite');
@@ -110,4 +112,16 @@ function deleteFavorite(storeName, data) {
             html: 'Something went wrong'
         });
     });
+}
+
+function setFavorite(dataType) {
+    if (dataType === "team") {
+        showFavorite("favorite_team").then(function (data) {
+            viewTeamsFavorite(data);
+        });
+    } else if (dataType === "match") {
+        showFavorite("favorite_match").then(function (data) {
+            viewMatchesFavorite(data);
+        });
+    }
 }

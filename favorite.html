@@ -12,23 +12,46 @@
     <meta content="#00c853" name="theme-color"/>
 </head>
 <body>
+<script src="js/idb.js"></script>
+<script src="js/db.js"></script>
+<script src="js/db_function.js"></script>
+<script src="js/api.js"></script>
+<script src="js/jquery-3.3.1.js"></script>
 <!-- Navigasi -->
 <nav class="nav-extended green accent-4" role="navigation">
     <div class="nav-wrapper container">
         <a class="brand-logo" href="#" id="logo-container">Favorite</a>
-        <a class="sidenav-trigger" data-target="nav-mobile" href="index.html">
-            <i class="material-icons">arrow_back</i>
-        </a>
+        <i class="sidenav-trigger material-icons" data-target="nav-mobile" onclick="window.history.back();">arrow_back</i>
     </div>
     <div class="nav-content container">
         <ul class="tabs tabs-transparent">
-            <li class="tab"><a class="active" href="#team">Teams</a></li>
-            <li class="tab"><a class="active" href="#match">Matches</a></li>
+            <li class="tab" id="tabTeam"><a href="#team" onclick="setFavorite('team')">Teams</a></li>
+            <li class="tab" id="tabMatch"><a href="#match" onclick="setFavorite('match')">Matches</a></li>
         </ul>
     </div>
 </nav>
 <!-- Akhir Navigasi -->
 <div class="container" id="body-content"></div>
 <script src="js/materialize.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let page = window.location.hash.substr(1);
+        if (page === ""){
+            page = "team";
+        }
+        if (page==="team"){
+            setFavorite("team");
+            $("#tabTeam").addClass('active');
+            $("#tabMatch").removeClass('active');
+        } else if (page==="match"){
+            setFavorite("match");
+            $("#tabMatch").addClass('active');
+            $("#tabTeam").removeClass('active');
+        }
+        $(".tab a").click(function() {
+            $(this).parent().addClass('active').siblings().removeClass('active');
+        })
+    });
+</script>
 </body>
 </html>
