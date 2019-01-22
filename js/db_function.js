@@ -67,6 +67,19 @@ function createFavorite(type, data) {
                 }
             }
         }
+    } else if (type === "player"){
+        storeName = "favorite_player";
+        item = {
+            id: data.id,
+            shirtNumber: data.shirtNumber,
+            name: data.name,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            dateOfBirth: data.dateOfBirth,
+            countryOfBirth: data.countryOfBirth,
+            nationality: data.nationality,
+            position: data.position
+        }
     }
     databasePromise(idb).then(db => {
         const tx = db.transaction(storeName, 'readwrite');
@@ -122,6 +135,10 @@ function setFavorite(dataType) {
     } else if (dataType === "match") {
         showFavorite("favorite_match").then(function (data) {
             viewMatchesFavorite(data);
+        });
+    } else if (dataType === "player") {
+        showFavorite("favorite_player").then(function (data) {
+            viewPlayersFavorite(data);
         });
     }
 }

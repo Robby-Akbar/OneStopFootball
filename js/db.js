@@ -19,5 +19,13 @@ function databasePromise(idb) {
                 unique: false
             });
         }
+        if (!upgradeDb.objectStoreNames.contains("favorite_player")) {
+            let indexTeam = upgradeDb.createObjectStore("favorite_player", {
+                keyPath: "id"
+            });
+            indexTeam.createIndex("playerName", "name", {
+                unique: false
+            });
+        }
     });
 }

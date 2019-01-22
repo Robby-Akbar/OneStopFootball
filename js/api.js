@@ -141,12 +141,17 @@ function viewTeam(data,id) {
     </div>
     `;
     let squadsHTML = "";
+    let tableSquadsHTML = "";
     data.squad.forEach(function (squad) {
         squadsHTML += `
-            ${squad.name} : <b>${squad.position}</b> - ${squad.nationality}<br>
+        <tr>
+            <td><a href="./player.html?id=${squad.id}"> ${squad.name}</a></td>
+            <td >${squad.position}</td>
+        </tr>
         `;
     });
-    document.getElementById("squads").innerHTML = squadsHTML;
+    tableSquadsHTML += `<table><tbody>${squadsHTML}</tbody></table>`;
+    document.getElementById("squads").innerHTML = tableSquadsHTML;
     let isFavorite = false;
     favoriteState("favorite_team",id).then((message)=>{
         console.log("Favorite : " + message);
@@ -361,4 +366,104 @@ function viewMatch(data,id) {
             isFavorite = true;
         }
     };
+}
+
+function getPlayerById() {
+    let urlParams = new URLSearchParams(window.location.search);
+    let idParam = urlParams.get("id");
+    let id = Number(idParam);
+    if ('caches' in window) {
+        caches.match(base_url + "players/" + idParam).then(function (response) {
+            if (response) {
+                response.json().then(function (data) {
+                    viewPlayer(data,id);
+                })
+            }
+        })
+    }
+    fetch(base_url + "players/" + idParam, {
+        headers: {
+            'X-Auth-Token': API_KEY
+        }
+    })
+        .then(status)
+        .then(json)
+        .then(function (data) {
+            viewPlayer(data,id);
+        })
+        .catch(error);
+}
+
+function viewPlayer(data,id) {
+    if (data.shirtNumber == null)
+        data.shirtNumber = "-";
+    if (data.lastName == null)
+        data.lastName = "-";
+    document.getElementById("body-content").innerHTML = `
+    <div class="card">
+        <div class="card-content">
+            <h1 class="center">${data.shirtNumber}</h1>
+            <table>
+                <tbody>
+                  <tr><td>Name :</td><td>${data.name}</td></tr>
+                  <tr><td>First Name :</td><td>${data.firstName}</td></tr>
+                  <tr><td>Last Name :</td><td>${data.lastName}</td></tr>
+                  <tr><td>Date of Birth :</td><td>${data.dateOfBirth}</td></tr>
+                  <tr><td>Country of Birth :</td><td>${data.countryOfBirth}</td></tr>
+                  <tr><td>Nationality :</td><td>${data.nationality}</td></tr>
+                  <tr><td>Position :</td><td>${data.position}</td></tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large green accent-4">
+            <i id="btnAdd" class="large material-icons">favorite_border</i>
+        </a>
+    </div>
+    `;
+    let isFavorite = false;
+    favoriteState("favorite_player",id).then((message)=>{
+        console.log("Favorite : " + message);
+        document.getElementById("btnAdd").innerHTML = "favorite";
+        isFavorite = true;
+    }).catch((message)=>{
+        console.log("Favorite : " + message);
+        document.getElementById("btnAdd").innerHTML = "favorite_border";
+        isFavorite = false;
+    });
+    let btnAdd = document.getElementById("btnAdd");
+    btnAdd.onclick = function () {
+        if (isFavorite) {
+            deleteFavorite("favorite_player",id);
+            isFavorite = false;
+        } else {
+            createFavorite("player",data);
+            isFavorite = true;
+        }
+    };
+}
+
+function viewPlayersFavorite(data) {
+    let playersHTML = "";
+    if (data.count===0){
+        M.toast({
+            html: 'Favorite is empty!'
+        });
+    } else {
+        data.forEach(function (player) {
+            playersHTML += `
+            <div class="center">
+                <div class="col s12 m7" id="player">
+                    <div class="card">
+                        <a href="./player.html?id=${player.id}">
+                            <span class="card-title truncate">${player.name}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        document.getElementById("body-content").innerHTML = playersHTML;
+    }
 }

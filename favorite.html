@@ -27,6 +27,7 @@
         <ul class="tabs tabs-transparent">
             <li class="tab" id="tabTeam"><a href="#team" onclick="setFavorite('team')">Teams</a></li>
             <li class="tab" id="tabMatch"><a href="#match" onclick="setFavorite('match')">Matches</a></li>
+            <li class="tab" id="tabPlayer"><a href="#player" onclick="setFavorite('player')">Players</a></li>
         </ul>
     </div>
 </nav>
@@ -34,6 +35,21 @@
 <div class="container" id="body-content"></div>
 <script src="js/materialize.min.js"></script>
 <script>
+    // REGISTER SERVICE WORKER
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+            navigator.serviceWorker
+                .register("service-worker.js")
+                .then(function () {
+                    console.log("Pendaftaran ServiceWorker berhasil");
+                })
+                .catch(function () {
+                    console.log("Pendaftaran ServiceWorker gagal");
+                });
+        });
+    } else {
+        console.log("ServiceWorker belum didukung browser ini.");
+    }
     document.addEventListener("DOMContentLoaded", function() {
         let page = window.location.hash.substr(1);
         if (page === ""){
@@ -45,6 +61,10 @@
             $("#tabMatch").removeClass('active');
         } else if (page==="match"){
             setFavorite("match");
+            $("#tabMatch").addClass('active');
+            $("#tabTeam").removeClass('active');
+        } else if (page==="player"){
+            setFavorite("player");
             $("#tabMatch").addClass('active');
             $("#tabTeam").removeClass('active');
         }
