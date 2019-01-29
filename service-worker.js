@@ -1,4 +1,4 @@
-importScripts('/js/workbox-sw.js');
+importScripts('js/workbox-sw.js');
 
 if (workbox)
     console.log(`Workbox berhasil dimuat`);
